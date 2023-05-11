@@ -46,9 +46,7 @@ def calculate_statistics(freq_list):
 
     # Calculate the mode
     min_value = np.min(freq_list)
-    # This string causes an error: TypeError: Cannot cast array data from dtype('float64') 
-    # to dtype('int64') according to the rule 'safe'
-    counts = np.bincount(freq_list - min_value + 1)
+    counts = np.bincount((freq_list - min_value + 1).astype(int))
     mode = np.argmax(counts) + min_value - 1
 
     # Calculate the variance
