@@ -34,19 +34,27 @@ plot_freq_polygon(frequency_list)
 
 def calculate_statistics(freq_list):
     # Calculate the mean
-    mean = st.mean(freq_list)
+    mean = np.sum(freq_list) / len(freq_list)
 
     # Calculate the median
-    median = st.median(freq_list)
+    sorted_list = freq_list.sort()
+    n = len(freq_list)
+
+    if n % 2 == 0: 
+        median = (sorted_list[n // 2 - 1] + sorted_list[n // 2]) / 2
+    else: 
+        median = sorted_list[n // 2]
 
     # Calculate the mode
-    mode = st.mode(freq_list)
+    min_value = np.min(freq_list)
+    counts = np.bincount(freq_list - min_value + 1).tolist()
+    mode = np.argmax(counts) + min_value - 1
 
     # Calculate the variance
-    variance = st.variance(freq_list)
+    variance = np.sum((freq_list - mean) ** 2) / (len(freq_list) - 1)
 
     # Calculate the standard deviation
-    stdev = st.stdev(freq_list)
+    stdev = np.sqrt(variance)
 
     # Show the results
     print("MEAN:", mean)
