@@ -106,10 +106,12 @@ def plot_pareto(freq_list):
     plt.show()
 
 def plot_pie_chart(freq_list):
+    bins = 10
+    counts, bins = np.histogram(freq_list, bins=bins)
+    labels = [f'{bins[i]:.2f} - {bins[i+1]:.2f}' for i in range(len(bins)-1)]
 
-    counts = np.histogram(freq_list, bins = 10)
     # Build a pie chart
-    plt.pie(counts, labels=range(1, len(freq_list) + 1), autopct='%1.1f%%')
+    plt.pie(counts, labels=labels, autopct='%1.1f%%')
 
     # Set the title
     plt.title('Pie chart')
@@ -118,7 +120,6 @@ def plot_pie_chart(freq_list):
     plt.show()
 
 # Example usage
-
 plot_boxplot(frequency_list)
 plot_pareto(frequency_list)
 plot_pie_chart(frequency_list)
