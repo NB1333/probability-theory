@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-import statistics as st
 
 mu = 0  # Mean
 sigma = 1.4  # Standard deviation
