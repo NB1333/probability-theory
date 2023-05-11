@@ -36,7 +36,7 @@ def calculate_statistics(freq_list):
     mean = np.sum(freq_list) / len(freq_list)
 
     # Calculate the median
-    sorted_list = freq_list.sort()
+    sorted_list = sorted(freq_list)
     n = len(freq_list)
 
     if n % 2 == 0: 
@@ -46,7 +46,9 @@ def calculate_statistics(freq_list):
 
     # Calculate the mode
     min_value = np.min(freq_list)
-    counts = np.bincount(freq_list - min_value + 1).tolist()
+    # This string causes an error: TypeError: Cannot cast array data from dtype('float64') 
+    # to dtype('int64') according to the rule 'safe'
+    counts = np.bincount(freq_list - min_value + 1)
     mode = np.argmax(counts) + min_value - 1
 
     # Calculate the variance
@@ -106,8 +108,10 @@ def plot_pareto(freq_list):
     plt.show()
 
 def plot_pie_chart(freq_list):
+
+    counts = np.histogram(freq_list, bins = 10)
     # Build a pie chart
-    plt.pie(freq_list, labels=range(1, len(freq_list)+1), autopct='%1.1f%%')
+    plt.pie(counts, labels=range(1, len(freq_list) + 1), autopct='%1.1f%%')
 
     # Set the title
     plt.title('Pie chart')
