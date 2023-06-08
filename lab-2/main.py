@@ -96,8 +96,8 @@ def calculate(basicArray=[], percent=0.95):
 
 # Функція для виведення результатів
 def output(result):
-    print("n: " + str(size))
-    print("%: " + str(result.get('percent')))
+    print("Count of elements: " + str(size))
+    print("Percentage: " + str(result.get('percent')))
     print('t: ' + str(result.get('t')))
     print('xi1: ' + str(result.get('xi1')))
     print('xi2: ' + str(result.get('xi2')))
