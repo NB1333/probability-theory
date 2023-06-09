@@ -33,12 +33,43 @@ def intervalSquare(arr, chi1, chi2, s):
     right = np.sqrt((n - 1) * (s ** 2) / chi2)
     return [left, right]
 
+
+# Commented code below is a pure python implementation of the same functions
+# Функція для обчислення середнього значення масиву
+# def average(array):
+#     sum = 0
+#     for i in range(len(array)):
+#         sum += array[i]
+#     return sum / len(array)
+
+# # Функція для обчислення квадрату відхилення
+# def devSq(arr):
+#     sum = 0
+#     for i in range(len(arr)):
+#         sum += arr[i] ** 2
+#     return 1 / (len(arr) - 1) * sum - average(arr) ** 2
+
+# # Функція для обчислення довірчого інтервалу для математичного сподівання
+# def intervalExpectation(arr, t, mean, s):
+#     n = len(arr)
+#     left = mean - (t * s / (n ** 0.5))
+#     right = mean + (t * s / (n ** 0.5))
+#     return [left, right]
+
+# # Функція для обчислення довірчого інтервалу для середнього квадратичного відхилення
+# def intervalSquare(arr, chi1, chi2, s):
+#     n = len(arr)
+#     left = math.sqrt((n - 1) * (s ** 2) / chi1)
+#     right = math.sqrt((n - 1) * (s ** 2) / chi2)
+#     return [left, right]
+
 def T_value(percent, freedom):
     return np.abs(stats.t.ppf(percent, freedom))
 
 def Xi_value(percent, freedom):
     return stats.chi2.ppf(percent, freedom)
 
+# Функція для обчислення довірчих інтервалів для заданого масиву та відсотку довіри
 def calculate(basicArray=None, percent=0.95):
     if basicArray is None:
         size = 147
@@ -46,14 +77,19 @@ def calculate(basicArray=None, percent=0.95):
         variance = 1.4
         np.random.seed(0)
         basicArray = np.random.normal(loc=mean, scale=np.sqrt(variance), size=size)
+
     size = len(basicArray)
     t = T_value((1 - percent) / 2, size - 1)
     s = devSq(basicArray) ** 0.5
     avrg = average(basicArray)
 
+    # Обчислення довірчих інтервалів для математичного сподівання
     left1, right1 = intervalExpectation(basicArray, t, avrg, s)
+
+    # Обчислення довірчих інтервалів для середньоквадратичного відхилення
     xi2 = Xi_value((1 - percent) / 2, size - 1)
     xi1 = Xi_value(1 - (1 - percent) / 2, size - 1)
+
     left2, right2 = intervalSquare(basicArray, xi1, xi2, s)
 
     result = {'size': size, 'percent': percent, 'average': avrg, 'sq': s, 'expect': [left1, right1],
@@ -73,6 +109,7 @@ def output(result, size):
     print("\nStandard deviation:")
     print(str(result['square'][0]) + " < o < " + str(result['square'][1]))
 
+# Функція для порівняння довірчих інтервалів для різних масивів та відсотків довіри
 def comparison(arrays, percents, sortBy='percent', reverse=True):
     result = []
     for array in arrays:
