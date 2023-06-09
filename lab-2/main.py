@@ -35,6 +35,7 @@ def intervalSquare(arr, chi1, chi2, s):
 
 
 # Commented code below is a pure python implementation of the same functions
+
 # Функція для обчислення середнього значення масиву
 # def average(array):
 #     sum = 0
