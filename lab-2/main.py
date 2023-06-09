@@ -89,34 +89,43 @@ def calculate(basicArray=None, percent=0.95):
 
     size = len(basicArray)
     t = T_value((1 - percent) / 2, size - 1)
-    s = devSq(basicArray) ** 0.5
+    square = devSq(basicArray) ** 0.5
     avrg = average(basicArray)
 
     # Обчислення довірчих інтервалів для математичного сподівання
-    left1, right1 = intervalExpectation(basicArray, t, avrg, s)
+    left1, right1 = intervalExpectation(basicArray, t, avrg, square)
 
     # Обчислення довірчих інтервалів для середньоквадратичного відхилення
     xi2 = Xi_value((1 - percent) / 2, size - 1)
     xi1 = Xi_value(1 - (1 - percent) / 2, size - 1)
 
-    left2, right2 = intervalSquare(basicArray, xi1, xi2, s)
+    left2, right2 = intervalSquare(basicArray, xi1, xi2, square)
 
-    result = {'size': size, 'percent': percent, 'average': avrg, 'sq': s, 'expect': [left1, right1],
-              'square': [left2, right2], 't': t, 'xi1': xi1, 'xi2': xi2}
+    result = {
+        'size': size, 
+        'percent': percent, 
+        'average': avrg, 
+        'sq': square, 
+        'expect': [left1, right1],
+        'square': [left2, right2], 
+        't': t, 
+        'xi1': xi1, 
+        'xi2': xi2}
     return result
 
 def output(result, size):
-    print("Number of elements: " + str(size))
-    print("Percentage: " + str(result['percent']))
-    print('t: ' + str(result['t']))
-    print('xi1: ' + str(result['xi1']))
-    print('xi2: ' + str(result['xi2']))
-    print("Average value: " + str(round(result['average'], 4)))
-    print("Standard deviation ^1: " + str(round(result['sq'] ** 0.5, 4)) + ' ^2 ' + str(round(result['sq'], 4)))
+    print("Number of elements: ", size)
+    print("Percentage: ", result['percent'])
+    print('t: ', result['t'])
+    print('xi1: ', result['xi1'])
+    print('xi2: ', result['xi2'])
+    print("Average value: ", round(result['average'], 4))
+    print("Standard deviation ^1: ", round(result['sq'] ** 0.5, 4), '^2 ', round(result['sq'], 4))
     print("Mathematical expectation:")
-    print(str(result['expect'][0]) + " < u < " + str(result['expect'][1]))
+    print(result['expect'][0], " < u < ", result['expect'][1])
     print("\nStandard deviation:")
-    print(str(result['square'][0]) + " < o < " + str(result['square'][1]))
+    print(result['square'][0], " < o < ", result['square'][1])
+
 
 # Функція для порівняння довірчих інтервалів для різних масивів та відсотків довіри
 def comparison(arrays, percents, sortBy='percent', reverse=True):
