@@ -1,19 +1,27 @@
+# Project: lab-2
+# File: main.py
+# Created by 2 brigade on 08.06.2023
+# Description: This code generates random numbers from a normal distribution, 
+# calculates the mean, the standard deviation, and builds confidence intervals 
+# for the mathematical expectation and the standard deviation. 
+# It displays the result for each array and confidence percentage, 
+# and compares the confidence intervals by size and confidence percentage.
+# 
+
 import numpy as np
 import scipy.stats as stats
 
 size = 147
 mean = 0
 variance = 1.4
-np.random.seed(0)
-basic = np.random.normal(loc=mean, scale=np.sqrt(variance), size=size)
-arr2 = basic[:len(basic) // 2]
-arr4 = arr2[:len(arr2) // 2]
-arr8 = arr4[:len(arr4) // 2]
-arr16 = arr8[:len(arr8) // 2]
-arr32 = arr16[:len(arr16) // 2]
-arr64 = arr32[:len(arr32) // 2]
 
-arrays = [basic, arr2, arr4, arr8, arr16, arr32, arr64]
+np.random.seed(0)
+
+basic = np.random.normal(loc=mean, scale=np.sqrt(variance), size=size)
+
+arrays = [basic]
+for i in range(1, 7):
+    arrays.append(arrays[i - 1][:len(arrays[i - 1]) // 2])
 percents = [0.995, 0.99, 0.975, 0.98, 0.95, 0.9, 0.5, 0.2]
 
 def average(array):
